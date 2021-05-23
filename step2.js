@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const fs = require('fs');
 
 function cat(path) {
@@ -10,4 +11,19 @@ function cat(path) {
     });
 }
 
-cat(process.argv[2]);
+async function webCat(url) {
+    try{
+        let res = await axios.get(url);
+        console.log(res.data);
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+let arg = process.argv[2];
+if(arg.startsWith('http')) {
+    webCat(arg);
+} else {
+    cat(process.argv[2]);
+}
